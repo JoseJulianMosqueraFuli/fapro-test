@@ -1,4 +1,6 @@
-from fastapi import FastAPI
+from datetime import datetime
+
+from fastapi import FastAPI, HTTPException
 from bs4 import BeautifulSoup
 import requests
 
@@ -20,6 +22,26 @@ def get_uf_value(day, month, year):
     return column_values[day - 1]
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+@app.post("/uf")
+def uf(data: dict):
+    date_str = data.get("date")
+
+    try:
+        date = datetime.strptime(date_str, "%Y-%m-%d").date()
+    except ValueError:
+        raise HTTPException(
+            status_code=400,
+            detail="Fecha inválida. El formato correcto es 'YYYY-MM-DD' de las opciones posibles",
+        )
+
+    if date.year < 2013 or date.year > datetime.now().year:
+        raise HTTPException(
+            status_code=400,
+            detail="Año inválido. Asegúrate de que el año esté dentro del rango disponible.",
+        )
+
+    try:
+        uf_value = get_uf_value(date.day, date.month, date.year)
+        return {"uf_value": uf_value}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
