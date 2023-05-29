@@ -2,7 +2,7 @@ fastapi
 uvicorn
 beautifulsoup4
 requests
-lxml
+pydantic
 pytest
 httpx
 pytest-mock
