@@ -3,3 +3,7 @@ uvicorn
 beautifulsoup4
 requests
 lxml
+pytest
+httpx
+pytest-mock
+requests_cache

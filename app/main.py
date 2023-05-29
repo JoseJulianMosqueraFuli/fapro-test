@@ -2,7 +2,8 @@ from datetime import datetime, timedelta
 
 from fastapi import FastAPI, HTTPException
 from app.scraper import get_uf_value
-from app.models import UFRequest
+from app.dependencies import UFRequest
+import requests
 
 
 app = FastAPI()
@@ -17,7 +18,7 @@ def uf(data: UFRequest):
 
     try:
         date = datetime.strptime(date_str, "%Y-%m-%d").date()
-        current_date = datetime.utcnow().date()
+        current_date = date.today()
         max_date = current_date + timedelta(days=11)
 
         if date.year < 2013 or date.year > current_date.year:
@@ -47,5 +48,6 @@ def uf(data: UFRequest):
     try:
         uf_value = get_uf_value(date.day, date.month, date.year)
         return {"uf_value": uf_value}
-    except Exception as e:
+
+    except requests.exceptions.HTTPError as e:
         raise HTTPException(status_code=500, detail=str(e))
