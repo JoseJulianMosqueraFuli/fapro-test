@@ -6,14 +6,14 @@ client = TestClient(app)
 
 
 def test_uf_valid_date():
-    payload = {"date": "2022-05-15"}
+    payload = {"date": "15-05-2022"}
     response = client.post("/uf", json=payload)
     assert response.status_code == 200
     assert "uf_value" in response.json()
 
 
 def test_uf_invalid_date():
-    payload = {"date": "2022-02-30"}  # Invalid date: February 30th
+    payload = {"date": "30-02-2022"}
     response = client.post("/uf", json=payload)
     assert response.status_code == 400
     assert "detail" in response.json()
@@ -37,7 +37,7 @@ def test_uf_empty_date():
 
 
 def test_uf_invalid_format():
-    payload = {"date": "2022/05/15"}  # Invalid format: using slashes instead of dashes
+    payload = {"date": "15/05/2022"}
     response = client.post("/uf", json=payload)
     assert response.status_code == 400
     assert "detail" in response.json()
@@ -45,7 +45,7 @@ def test_uf_invalid_format():
 
 
 def test_uf_invalid_before_year():
-    payload = {"date": "2000-05-15"}  # Invalid year: 2000 (before 2013)
+    payload = {"date": "15-05-2000"}
     response = client.post("/uf", json=payload)
     assert response.status_code == 400
     assert "detail" in response.json()
@@ -53,7 +53,7 @@ def test_uf_invalid_before_year():
 
 
 def test_uf_invalid_after_year():
-    payload = {"date": "2024-05-15"}  # Invalid year: 2000 (before 2013)
+    payload = {"date": "15-05-2024"}
     response = client.post("/uf", json=payload)
     assert response.status_code == 400
     assert "detail" in response.json()

@@ -28,7 +28,7 @@ def uf(data: UFRequest):
     date_str = data.date
 
     try:
-        date = datetime.strptime(date_str, "%Y-%m-%d").date()
+        date = datetime.strptime(date_str, "%d-%m-%Y").date()
         current_date = date.today()
         max_date = current_date + timedelta(days=11)
 
@@ -50,7 +50,7 @@ def uf(data: UFRequest):
                 "Día inválido. El mes especificado no tiene suficientes días."
             )
         elif "unconverted data remains" in error_detail or "time data" in error_detail:
-            error_detail = "Fecha inválida. El formato correcto es 'YYYY-MM-DD' revisa puedes haber escrito un día o un més que no es valido."
+            error_detail = "Fecha inválida. El formato correcto es 'DD-MM-YYYY' revisa puedes haber escrito un día o un més que no es valido."
         else:
             error_detail = "Error en la fecha especificada: " + error_detail
 
