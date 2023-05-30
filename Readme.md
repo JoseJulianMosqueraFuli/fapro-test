@@ -1,6 +1,7 @@
 # API de Consulta de Unidad de Fomento (UF)
 
 Esta API permite consultar el valor de la Unidad de Fomento (UF) para una fecha específica utilizando scraping en el sitio web del Servicio de Impuestos Internos (SII) de Chile.
+Tiene rangos de fecha valido empezando con fechas superiores a 01-01-2013 y no siendo superior 11 días a la fecha actual, ni años superiores al año actual.
 
 ## Indice
 
